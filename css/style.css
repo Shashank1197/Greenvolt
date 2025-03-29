@@ -4,6 +4,7 @@
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       color: #333;
+      
     }
 
     /* Navbar Styles */
@@ -117,6 +118,8 @@ a{
       font-size: 1.5rem;
       font-weight: 400;
       margin: 10px 0;
+      
+      color: white!important;
     }
     #hero p {
       font-size: 1.2rem;
