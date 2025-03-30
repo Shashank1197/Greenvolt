@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Admin Portal for GreenVolt-Nexus EV Charging Stations">
+  <title>GreenVolt-Nexus Admin Portal</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    
+    .navbar-custom {
+      background-color: #2c8a4a;
+    }
+    
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: white;
+    }
+    
+    .sb-section {
+      padding: 4rem 0;
+    }
+    
+    .sb-section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .sb-section-subtitle {
+      font-size: 1.25rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .admin-card {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .admin-card h3 {
+      color: #2c8a4a;
+      margin-bottom: 1rem;
+    }
+    
+    .slot-status {
+      font-weight: bold;
+      color: #2c8a4a;
+    }
+    
+    .btn-deploy {
+      background-color: #2c8a4a;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-deploy:hover {
+      background-color: #1f6b38;
+    }
+    
+    #sb-footer {
+      background-color: #f8f9fa;
+      padding: 2rem 0;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">GreenVolt-Nexus Admin</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#slots">Slots</a></li>
+          <li class="nav-item"><a class="nav-link" href="#logout">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="sb-site">
+    <section id="dashboard" class="sb-section bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6 text-center">
+            <h1 class="sb-section-title">Admin Dashboard</h1>
+            <div class="sb-section-subtitle">Manage EV Charging Stations</div>
+          </div>
+        </div>
+
+        <!-- EV Type Section -->
+        <div class="row mt-5">
+          <div class="col-md-6">
+            <div class="admin-card">
+              <h3>EV Type: Two-Wheeler</h3>
+              <p>Available Slots: <span class="slot-status" id="two-wheeler-slots">5</span></p>
+              <p>Queue: <span id="two-wheeler-queue">0</span></p>
+              <p>Amount: ₹50 per charge</p>
+              <button class="btn-deploy" onclick="deploySlot('Two-Wheeler')">Deploy Slot</button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="admin-card">
+              <h3>EV Type: Four-Wheeler</h3>
+              <p>Available Slots: <span class="slot-status" id="four-wheeler-slots">3</span></p>
+              <p>Queue: <span id="four-wheeler-queue">2</span></p>
+              <p>Amount: ₹150 per charge</p>
+              <button class="btn-deploy" onclick="deploySlot('Four-Wheeler')">Deploy Slot</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Company and Station Info -->
+        <div class="row mt-5">
+          <div class="col-md-12">
+            <div class="admin-card">
+              <h3>Charging Station Details</h3>
+              <p>Company Name: GreenVolt-Nexus</p>
+              <p>Location: Jaipur, RJ, IN</p>
+              <p>Total Slots Available: <span class="slot-status" id="total-slots">8</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="sb-footer" class="sb-section py-4">
+      <div class="container text-center">
+        <p class="mt-3 mb-0">© 2025 GreenVolt-Nexus. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+  <script>
+    function deploySlot(evType) {
+      let slotsElement, queueElement;
+      if (evType === 'Two-Wheeler') {
+        slotsElement = document.getElementById('two-wheeler-slots');
+        queueElement = document.getElementById('two-wheeler-queue');
+      } else {
+        slotsElement = document.getElementById('four-wheeler-slots');
+        queueElement = document.getElementById('four-wheeler-queue');
+      }
+
+      let slots = parseInt(slotsElement.textContent);
+      let queue = parseInt(queueElement.textContent);
+
+      if (slots > 0) {
+        slots--;
+        slotsElement.textContent = slots;
+        alert(`${evType} slot deployed successfully! Remaining slots: ${slots}`);
+      } else if (queue > 0) {
+        queue--;
+        queueElement.textContent = queue;
+        alert(`${evType} added to queue. Remaining in queue: ${queue}`);
+      } else {
+        alert(`No slots or queue available for ${evType}.`);
+      }
+
+      // Update total slots
+      const totalSlots = parseInt(document.getElementById('two-wheeler-slots').textContent) + parseInt(document.getElementById('four-wheeler-slots').textContent);
+      document.getElementById('total-slots').textContent = totalSlots;
+    }
+  </script>
+</body>
+</html>
